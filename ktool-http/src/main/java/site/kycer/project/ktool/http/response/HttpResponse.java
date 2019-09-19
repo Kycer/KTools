@@ -5,8 +5,6 @@ import okhttp3.Response;
 import okhttp3.ResponseBody;
 
 import java.io.IOException;
-import java.util.Objects;
-import java.util.Optional;
 
 /**
  * 分装响应
@@ -35,19 +33,14 @@ public class HttpResponse {
     /**
      * body
      */
-    private String body;
+    private ResponseBody body;
 
 
     public HttpResponse(Response response) throws IOException {
         this.code = response.code();
         this.message = response.message();
         this.headers = response.headers();
-        ResponseBody body = response.body();
-        this.body = Objects.isNull(body) ? null : body.string();
-    }
-
-    public String bodyOrThrow() {
-        return Optional.ofNullable(this.body).orElseThrow(NullPointerException::new);
+        this.body = response.body();
     }
 
     public Integer getCode() {
@@ -62,7 +55,7 @@ public class HttpResponse {
         return headers;
     }
 
-    public String getBody() {
+    public ResponseBody getBody() {
         return body;
     }
 }

@@ -8,13 +8,14 @@ import java.util.Map;
  * @version 1.0
  * @date 2019-09-18
  */
-public abstract class CollectionUtils {
-
+public class CollectionUtils {
+    private CollectionUtils() {
+    }
     /**
      * 判断集合是否为空
      *
      * @param collection 集合
-     * @return true 为空
+     * @return {@code true} 为空
      */
     public static boolean isEmpty(Collection<?> collection) {
         return (collection == null || collection.isEmpty());
@@ -24,7 +25,7 @@ public abstract class CollectionUtils {
      * 判断集合不为空
      *
      * @param collection 集合
-     * @return true 不为空
+     * @return {@code true} 不为空
      */
     public static boolean isNotEmpty(Collection<?> collection) {
         return !isEmpty(collection);
@@ -34,7 +35,7 @@ public abstract class CollectionUtils {
      * 判断map是否为空
      *
      * @param map Map
-     * @return true 为空
+     * @return {@code true} 为空
      */
     public static boolean isEmpty(Map<?, ?> map) {
         return (map == null || map.isEmpty());
@@ -44,7 +45,7 @@ public abstract class CollectionUtils {
      * 判断map不为空
      *
      * @param map Map
-     * @return true 不为空
+     * @return {@code true} 不为空
      */
     public static boolean isNotEmpty(Map<?, ?> map) {
         return !isEmpty(map);

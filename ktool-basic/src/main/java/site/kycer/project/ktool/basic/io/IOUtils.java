@@ -1,9 +1,8 @@
 package site.kycer.project.ktool.basic.io;
 
-import java.io.ByteArrayOutputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.OutputStream;
+import java.io.*;
+import java.nio.ByteBuffer;
+import java.nio.channels.ReadableByteChannel;
 
 /**
  * IO 工具类
@@ -14,29 +13,86 @@ import java.io.OutputStream;
  */
 public class IOUtils {
 
-    public static byte[] toByteArray(InputStream input)
-            throws IOException {
-        ByteArrayOutputStream output = new ByteArrayOutputStream();
-        copy(input, output);
-        return output.toByteArray();
+    private IOUtils() {
     }
 
-    public static int copy(InputStream input, OutputStream output) throws IOException {
-        long count = copyLarge(input, output);
-        if (count > 2147483647L) {
-            return -1;
-        }
-        return (int) count;
-    }
-
-    public static long copyLarge(InputStream input, OutputStream output) throws IOException {
+    public static byte[] toByteArray(InputStream stream) throws IOException {
+        ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
         byte[] buffer = new byte[4096];
-        long count = 0L;
-        int n = 0;
-        while (-1 != (n = input.read(buffer))) {
-            output.write(buffer, 0, n);
-            count += n;
+        int read = 0;
+
+        while (read != -1) {
+            read = stream.read(buffer);
+            if (read > 0) {
+                outputStream.write(buffer, 0, read);
+            }
         }
-        return count;
+
+        return outputStream.toByteArray();
+    }
+
+    public static byte[] toByteArray(ByteBuffer buffer, int length) {
+        if (buffer.hasArray() && buffer.arrayOffset() == 0) {
+            return buffer.array();
+        } else {
+            byte[] data = new byte[length];
+            buffer.get(data);
+            return data;
+        }
+    }
+
+    public static int readFully(InputStream in, byte[] b) throws IOException {
+        return readFully(in, b, 0, b.length);
+    }
+
+    public static int readFully(InputStream in, byte[] b, int off, int len) throws IOException {
+        int total = 0;
+
+        do {
+            int got = in.read(b, off + total, len - total);
+            if (got < 0) {
+                return total == 0 ? -1 : total;
+            }
+
+            total += got;
+        } while (total != len);
+
+        return total;
+    }
+
+    public static int readFully(ReadableByteChannel channel, ByteBuffer b) throws IOException {
+        int total = 0;
+
+        do {
+            int got = channel.read(b);
+            if (got < 0) {
+                return total == 0 ? -1 : total;
+            }
+
+            total += got;
+        } while (total != b.capacity() && b.position() != b.capacity());
+
+        return total;
+    }
+
+    public static void copy(InputStream inp, OutputStream out) throws IOException {
+        byte[] buff = new byte[4096];
+
+        int count;
+        while ((count = inp.read(buff)) != -1) {
+            if (count > 0) {
+                out.write(buff, 0, count);
+            }
+        }
+
+    }
+
+    public static void closeQuietly(Closeable closeable) {
+        try {
+            closeable.close();
+        } catch (Exception var2) {
+
+        }
+
     }
 }

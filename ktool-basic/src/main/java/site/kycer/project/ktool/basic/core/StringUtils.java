@@ -7,8 +7,10 @@ package site.kycer.project.ktool.basic.core;
  * @version 1.0
  * @date 2019-09-18
  */
-public abstract class StringUtils {
+public class StringUtils {
 
+    private StringUtils() {
+    }
 
     /**
      * 检查字符串是 "" 或 null
@@ -22,7 +24,7 @@ public abstract class StringUtils {
      * </pre>
      *
      * @param str 入参字符串
-     * @return <code>true</code> str 是 "" 或 null
+     * @return {@code true} str 是 "" 或 null
      */
     public static boolean isEmpty(String str) {
         return str == null || str.length() == 0;
@@ -41,7 +43,7 @@ public abstract class StringUtils {
      * </pre>
      *
      * @param str 入参字符串
-     * @return <code>true</code> str 不是"" 且 不为null
+     * @return {@code true} str 不是"" 且 不为null
      */
     public static boolean isNotEmpty(String str) {
         return !StringUtils.isEmpty(str);
@@ -60,7 +62,7 @@ public abstract class StringUtils {
      * </pre>
      *
      * @param str 入参字符串
-     * @return <code>true</code> str 是 "" 或 null
+     * @return {@code true} str 是 "" 或 null
      */
     public static boolean isBlank(String str) {
         int strLen;
@@ -88,7 +90,7 @@ public abstract class StringUtils {
      * </pre>
      *
      * @param str 入参字符串
-     * @return <code>true</code> str 不是"" 且 不为null
+     * @return {@code true} str 不是"" 且 不为null
      */
     public static boolean isNotBlank(String str) {
         return !StringUtils.isBlank(str);
@@ -100,7 +102,7 @@ public abstract class StringUtils {
      *
      * @param str1 字符串 1
      * @param str2 字符串 2
-     * @return <code>true</code> 值相等
+     * @return {@code true} 值相等
      */
     public static boolean equals(String str1, String str2) {
         return str1 == null ? str2 == null : str1.equals(str2);
@@ -111,7 +113,7 @@ public abstract class StringUtils {
      *
      * @param str1 字符串 1
      * @param str2 字符串 2
-     * @return <code>true</code> 值相等
+     * @return {@code true} 值相等
      */
     public static boolean equalsIgnoreCase(String str1, String str2) {
         return str1 == null ? str2 == null : str1.equalsIgnoreCase(str2);

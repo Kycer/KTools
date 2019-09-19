@@ -3,6 +3,8 @@ package site.kycer.project.ktool.http.enums;
 import okhttp3.MediaType;
 
 /**
+ * MediaType 枚举
+ *
  * @author Kycer
  * @version 1.0
  * @date 2019-09-18

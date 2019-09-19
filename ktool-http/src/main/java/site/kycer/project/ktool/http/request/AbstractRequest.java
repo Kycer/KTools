@@ -5,6 +5,7 @@ import okhttp3.*;
 import org.jetbrains.annotations.NotNull;
 import site.kycer.project.ktool.basic.core.CollectionUtils;
 import site.kycer.project.ktool.basic.core.StringUtils;
+import site.kycer.project.ktool.http.exception.HttpClientException;
 import site.kycer.project.ktool.http.response.HttpResponse;
 
 import java.io.IOException;
@@ -52,7 +53,7 @@ public abstract class AbstractRequest<T extends AbstractRequest> {
      *
      * @param key   字段名
      * @param value 字段值
-     * @return 返回当前对象
+     * @return 返回当前 {@linkplain T} 对象
      */
     public T queryString(String key, String value) {
         this.queryString(key, value, false);
@@ -65,7 +66,7 @@ public abstract class AbstractRequest<T extends AbstractRequest> {
      * @param key     字段名
      * @param value   字段值
      * @param replace 是否替换相同key值的value
-     * @return 返回当前对象
+     * @return 返回当前 {@linkplain T} 对象
      */
     public T queryString(String key, String value, boolean replace) {
         if (StringUtils.isEmpty(key)) {
@@ -110,7 +111,7 @@ public abstract class AbstractRequest<T extends AbstractRequest> {
      *
      * @param name  头名字
      * @param value 头值
-     * @return 返回当前对象
+     * @return 返回当前 {@linkplain T} 对象
      */
     public T header(String name, String value) {
         if (StringUtils.isNotEmpty(name) && null != value) {
@@ -133,7 +134,7 @@ public abstract class AbstractRequest<T extends AbstractRequest> {
     /**
      * 获取 Request
      *
-     * @return Request
+     * @return {@linkplain Request}
      */
     private Request getRequest() {
         Request.Builder builder = this.getRequestBuilder();
@@ -146,7 +147,7 @@ public abstract class AbstractRequest<T extends AbstractRequest> {
     /**
      * 同步执行请求
      *
-     * @return http 结果
+     * @return {@linkplain HttpResponse}
      */
     public HttpResponse execute() {
         try {
@@ -154,7 +155,21 @@ public abstract class AbstractRequest<T extends AbstractRequest> {
             Response response = this.okHttpClient.newCall(this.getRequest()).execute();
             return new HttpResponse(response);
         } catch (IOException e) {
-            throw new RuntimeException(e);
+            throw new HttpClientException(e);
+        }
+    }
+
+    /**
+     * 同步执行并返回String
+     *
+     * @return 结果字符串
+     */
+    public String string() {
+        try {
+            ResponseBody body = this.okHttpClient.newCall(this.getRequest()).execute().body();
+            return body != null ? body.string() : null;
+        } catch (IOException e) {
+            throw new HttpClientException(e);
         }
     }
 

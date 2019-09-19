@@ -20,7 +20,7 @@ public class HttpClientException extends RuntimeException {
         super(s, throwable);
     }
 
-    protected HttpClientException(String s, Throwable throwable, boolean b, boolean b1) {
-        super(s, throwable, b, b1);
+    public HttpClientException(Throwable throwable) {
+        super(throwable);
     }
 }
