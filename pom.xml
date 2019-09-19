@@ -9,7 +9,6 @@
     <version>1.0.0-SNAPSHOT</version>
     <packaging>pom</packaging>
     <name>KTools</name>
-    <url>http://maven.apache.org</url>
 
 
     <modules>

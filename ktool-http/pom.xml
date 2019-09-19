@@ -11,10 +11,8 @@
     </parent>
 
     <artifactId>KTool-Http</artifactId>
-    <version>${project.version}</version>
     <packaging>jar</packaging>
     <name>KTool-Http</name>
-    <url>http://maven.apache.org</url>
 
     <dependencies>
         <dependency>
