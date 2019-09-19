@@ -35,12 +35,18 @@ public class HttpResponse {
      */
     private ResponseBody body;
 
+    /**
+     * 主体字符串内容
+     */
+    private String bodyString;
+
 
     public HttpResponse(Response response) throws IOException {
         this.code = response.code();
         this.message = response.message();
         this.headers = response.headers();
         this.body = response.body();
+        this.bodyString = this.body != null ? this.body.string() : null;
     }
 
     public Integer getCode() {
@@ -57,5 +63,9 @@ public class HttpResponse {
 
     public ResponseBody getBody() {
         return body;
+    }
+
+    public String getBodyString() {
+        return bodyString;
     }
 }
