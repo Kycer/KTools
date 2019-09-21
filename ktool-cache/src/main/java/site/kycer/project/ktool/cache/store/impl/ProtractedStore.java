@@ -1,6 +1,6 @@
-package site.kycer.project.ktool.cache.store;
+package site.kycer.project.ktool.cache.store.impl;
 
-import java.util.List;
+import site.kycer.project.ktool.cache.store.Element;
 
 /**
  * @author Kycer
@@ -15,16 +15,12 @@ public class ProtractedStore<K, V> extends AbstractStore<K, V> {
 
     @Override
     public Element put(Element<K, V> e) {
-        return null;
+        return STORAGE_MAP.put(e.getKey(), e);
     }
 
     @Override
     public Element<K, V> get(K key) {
-        return null;
+        return STORAGE_MAP.get(key);
     }
 
-    @Override
-    public List<Element<K, V>> getAll() {
-        return null;
-    }
 }

@@ -31,7 +31,7 @@ public class Element<K, V> implements Serializable {
     /**
      * 使用次数
      */
-    private Long hitCount;
+    private volatile Long hitCount;
 
     /**
      * 创建时间
@@ -46,7 +46,7 @@ public class Element<K, V> implements Serializable {
     /**
      * 最后更新时间
      */
-    private Long lastAccessTime;
+    private volatile Long lastAccessTime;
 
 
     public Element(K key, V value, Long expires) {

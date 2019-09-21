@@ -1,6 +1,6 @@
 package site.kycer.project.ktool.cache.store;
 
-import java.util.List;
+import java.util.Collection;
 import java.util.Set;
 
 /**
@@ -10,7 +10,7 @@ import java.util.Set;
  * @version 1.0
  * @date 2019-09-20
  */
-public interface ICacheStore<K, V> {
+public interface CacheStore<K, V> {
 
     /**
      * 获取所有缓存名字
@@ -40,7 +40,7 @@ public interface ICacheStore<K, V> {
      *
      * @return 索取所有缓存元素 {@linkplain Element}
      */
-    List<Element<K, V>> getAll();
+    Collection<Element<K, V>> getAll();
 
     /**
      * 清除所有元素
@@ -59,6 +59,13 @@ public interface ICacheStore<K, V> {
      * @return @{code true} 删除成功
      */
     Element<K, V> remove(K key);
+
+    /**
+     * 移除所有
+     *
+     * @param keys 集合K
+     */
+    void removeAll(Collection<K> keys);
 
     /**
      * 获取缓存大小

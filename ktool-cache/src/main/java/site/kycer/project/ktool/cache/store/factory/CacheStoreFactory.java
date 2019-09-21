@@ -2,6 +2,10 @@ package site.kycer.project.ktool.cache.store.factory;
 
 import site.kycer.project.ktool.cache.enums.ExpirationType;
 import site.kycer.project.ktool.cache.store.*;
+import site.kycer.project.ktool.cache.store.impl.FIFOStore;
+import site.kycer.project.ktool.cache.store.impl.LFUStore;
+import site.kycer.project.ktool.cache.store.impl.LRUStore;
+import site.kycer.project.ktool.cache.store.impl.ProtractedStore;
 
 /**
  * 存储实例创建工厂
@@ -12,7 +16,7 @@ import site.kycer.project.ktool.cache.store.*;
  */
 public class CacheStoreFactory {
 
-    public static <K, V> ICacheStore<K, V> create(ExpirationType expiration, Integer size) {
+    public static <K, V> CacheStore<K, V> create(ExpirationType expiration, Integer size) {
         switch (expiration) {
             case LFU:
                 return new LFUStore<>(size);

@@ -1,22 +1,25 @@
 package site.kycer.project.ktool.cache.cache;
 
 import site.kycer.project.ktool.basic.core.CollectionUtils;
+import site.kycer.project.ktool.cache.CacheBuilder;
 import site.kycer.project.ktool.cache.config.CacheConfig;
+import site.kycer.project.ktool.cache.enums.ExpirationType;
+import site.kycer.project.ktool.cache.listener.RemovalListener;
 import site.kycer.project.ktool.cache.store.Element;
-import site.kycer.project.ktool.cache.store.ICacheStore;
+import site.kycer.project.ktool.cache.store.CacheStore;
 import site.kycer.project.ktool.cache.store.factory.CacheStoreFactory;
 
 import java.util.*;
 import java.util.stream.Collectors;
 
 /**
- * 具体执行缓存操作
+ * 具体执行缓存操作  TODO 参数判断
  *
  * @author Kycer
  * @version 1.0
  * @date 2019-09-20
  */
-public class CacheManager<K, V> implements ICache<K, V> {
+public class CacheManager<K, V> implements Cache<K, V> {
 
     /**
      * 缓存配置文件
@@ -24,14 +27,26 @@ public class CacheManager<K, V> implements ICache<K, V> {
     private final CacheConfig configure;
 
     /**
+     * 具体失效策略
+     */
+    private final ExpirationType expiration;
+
+    /**
      * 缓存存储
      */
-    private final ICacheStore<K, V> cacheStore;
+    private final CacheStore<K, V> cacheStore;
 
-    public CacheManager(CacheConfig configure) {
-        this.configure = configure;
-        this.cacheStore = CacheStoreFactory.create(configure.getExpiration(), configure.getSize());
+    private RemovalListener<K, V> removalListener;
+
+    public CacheManager(CacheBuilder<K, V> cacheBuilder) {
+        this.configure = cacheBuilder.cacheConfig();
+        this.expiration = configure.getExpiration();
+        this.cacheStore = CacheStoreFactory.create(expiration, configure.getSize());
+        if (!Objects.equals(expiration, ExpirationType.PROTRACTED)) {
+            this.removalListener = new RemovalListener<>(this, configure.getScanSeconds());
+        }
     }
+
 
     @Override
     public Set<K> getKeys() {
@@ -45,18 +60,23 @@ public class CacheManager<K, V> implements ICache<K, V> {
 
     @Override
     public void put(K key, V value, Long millis) {
-        cacheStore.put(generateElement(key, value, millis));
+        Element<K, V> element = generateElement(key, value, millis);
+        cacheStore.put(element);
+        if (element.getExpires() != 0) {
+            this.removalListener.addSource(element);
+        }
     }
 
     @Override
     public Optional<V> get(K key) {
         Element<K, V> element = cacheStore.get(key);
+        System.out.println(element);
         return Optional.ofNullable(element).map(Element::getValue);
     }
 
     @Override
     public List<Map<K, V>> getAll() {
-        List<Element<K, V>> all = cacheStore.getAll();
+        Collection<Element<K, V>> all = cacheStore.getAll();
         if (CollectionUtils.isNotEmpty(all)) {
             return all.stream()
                     .map(a -> {
@@ -81,7 +101,7 @@ public class CacheManager<K, V> implements ICache<K, V> {
 
     @Override
     public void removeAll(Collection<K> keys) {
-
+        cacheStore.removeAll(keys);
     }
 
     @Override
@@ -112,7 +132,7 @@ public class CacheManager<K, V> implements ICache<K, V> {
      * @return {@linkplain Element}
      */
     private Element<K, V> generateElement(K key, V value, Long expires) {
-        Long millis = Optional.ofNullable(expires).orElse(configure.getExpires());
+        Long millis = Objects.equals(expiration, ExpirationType.PROTRACTED) ? 0L : Optional.ofNullable(expires).orElse(configure.getExpires());
         return new Element<>(key, value, millis);
     }
 }

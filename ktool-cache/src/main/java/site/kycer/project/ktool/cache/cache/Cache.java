@@ -1,162 +1,101 @@
 package site.kycer.project.ktool.cache.cache;
 
-import site.kycer.project.ktool.basic.core.UUIDUtils;
-import site.kycer.project.ktool.cache.enums.ExpirationType;
-import site.kycer.project.ktool.cache.config.CacheConfig;
-
 import java.util.*;
 
 /**
- * 具体缓存缓存
+ * 缓存操作接口
  *
  * @author Kycer
  * @version 1.0
  * @date 2019-09-20
  */
-public class Cache<K, V> implements ICache<K, V> {
-
-    private CacheManager<K, V> cacheManager;
-
-    private Cache(CacheConfig cacheConfig) {
-        this.cacheManager = new CacheManager<>(cacheConfig);
-    }
-
-
-    @Override
-    public Set<K> getKeys() {
-        return this.cacheManager.getKeys();
-    }
-
-    @Override
-    public void put(K key, V value) {
-        this.cacheManager.put(key, value);
-    }
-
-    @Override
-    public void put(K key, V value, Long millis) {
-        this.cacheManager.put(key, value, millis);
-    }
-
-    @Override
-    public Optional<V> get(K key) {
-        return this.cacheManager.get(key);
-    }
-
-    @Override
-    public List<Map<K, V>> getAll() {
-        return this.cacheManager.getAll();
-    }
-
-    @Override
-    public void clear() {
-        this.cacheManager.clear();
-    }
-
-    @Override
-    public boolean remove(K key) {
-        return this.cacheManager.remove(key);
-    }
-
-    @Override
-    public void removeAll(Collection<K> keys) {
-        this.cacheManager.removeAll(keys);
-    }
-
-    @Override
-    public Integer size() {
-        return this.cacheManager.size();
-    }
-
-    @Override
-    public boolean isFull() {
-        return this.cacheManager.isFull();
-    }
-
-    @Override
-    public boolean isEmpty() {
-        return this.cacheManager.isEmpty();
-    }
-
-    @Override
-    public boolean containsKey(K key) {
-        return this.cacheManager.containsKey(key);
-    }
+public interface Cache<K, V> {
 
     /**
-     * builder形式创建 Cache
+     * 获取所有缓存名字
      *
-     * @return {@linkplain Cache.Builder}
+     * @return 所有缓存名字
      */
-    public static Cache.Builder newBuilder() {
-        return new Builder();
-    }
+    Set<K> getKeys();
 
-    public static class Builder<K, V> {
-        private CacheConfig cacheConfig;
+    /**
+     * 添加一个元素
+     *
+     * @param key   缓存key
+     * @param value 缓存value
+     */
+    void put(K key, V value);
 
-        Builder() {
-            this.cacheConfig = new CacheConfig(UUIDUtils.generator());
-        }
+    /**
+     * 添加一个元素 带过期时间
+     *
+     * @param key    缓存key
+     * @param value  缓存value
+     * @param millis 缓存时长（毫秒）
+     */
+    void put(K key, V value, Long millis);
 
-        /**
-         * 设置缓存失效策略
-         *
-         * @param expiration {@linkplain ExpirationType} 缓存策略
-         * @return {@linkplain Builder}
-         */
-        public Builder expiration(ExpirationType expiration) {
-            if (Objects.isNull(expiration)) {
-                return this;
-            }
-            this.cacheConfig.setExpiration(expiration);
-            return this;
-        }
+    /**
+     * 根据 {@code key} 获取一个元素
+     *
+     * @param key 缓存key值
+     * @return 缓存元素值
+     */
+    Optional<V> get(K key);
 
-        /**
-         * 设置缓存大小
-         *
-         * @param size 大小
-         * @return {@linkplain Builder}
-         */
-        public Builder size(Integer size) {
-            if (Objects.isNull(size) || size < 0) {
-                return this;
-            }
-            this.cacheConfig.setSize(size);
-            return this;
-        }
+    /**
+     * 获取所有缓存
+     *
+     * @return 索取所有缓存元素
+     */
+    List<Map<K, V>> getAll();
 
-        /**
-         * 缓存失效时间
-         *
-         * @param expires 失效时间
-         * @return {@linkplain Builder}
-         */
-        public Builder expires(Long expires) {
-            if (Objects.isNull(expires) || expires < 0) {
-                return this;
-            }
-            this.cacheConfig.setExpires(expires);
-            return this;
-        }
+    /**
+     * 清除所有元素
+     */
+    void clear();
 
-        /**
-         * 设置缓存失效扫描时间
-         *
-         * @param scanSeconds 缓存失效扫描时间
-         * @return {@linkplain Builder}
-         */
-        public Builder scanSeconds(Long scanSeconds) {
-            if (Objects.isNull(scanSeconds) || scanSeconds < 0) {
-                return this;
-            }
-            this.cacheConfig.setScanSeconds(scanSeconds);
-            return this;
-        }
+    /**
+     * 删除一个缓存
+     *
+     * @param key 缓存key值
+     * @return @{code true} 删除成功
+     */
+    boolean remove(K key);
 
-        public Cache<K, V> build() {
-            return new Cache<>(this.cacheConfig);
-        }
+    /**
+     * 删除一组元素
+     *
+     * @param keys 缓存key集合
+     */
+    void removeAll(Collection<K> keys);
 
-    }
+    /**
+     * 获取缓存大小
+     *
+     * @return 缓存大小
+     */
+    Integer size();
+
+    /**
+     * 缓存是否已满
+     *
+     * @return {@code true} 已满
+     */
+    boolean isFull();
+
+    /**
+     * 缓存是否为空
+     *
+     * @return {@code true} 为空
+     */
+    boolean isEmpty();
+
+    /**
+     * 是否包含key
+     *
+     * @param key key
+     * @return {@code true} 包含
+     */
+    boolean containsKey(K key);
 }
