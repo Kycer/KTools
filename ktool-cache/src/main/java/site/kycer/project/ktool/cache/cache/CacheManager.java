@@ -5,12 +5,14 @@ import site.kycer.project.ktool.cache.CacheBuilder;
 import site.kycer.project.ktool.cache.config.CacheConfig;
 import site.kycer.project.ktool.cache.enums.ExpirationType;
 import site.kycer.project.ktool.cache.listener.RemovalListener;
-import site.kycer.project.ktool.cache.store.Element;
 import site.kycer.project.ktool.cache.store.CacheStore;
+import site.kycer.project.ktool.cache.store.Element;
 import site.kycer.project.ktool.cache.store.factory.CacheStoreFactory;
 
 import java.util.*;
 import java.util.stream.Collectors;
+
+import static java.util.Objects.requireNonNull;
 
 /**
  * 具体执行缓存操作  TODO 参数判断
@@ -60,6 +62,8 @@ public class CacheManager<K, V> implements Cache<K, V> {
 
     @Override
     public void put(K key, V value, Long millis) {
+        requireNonNull(key);
+        requireNonNull(value);
         Element<K, V> element = generateElement(key, value, millis);
         cacheStore.put(element);
         if (element.getExpires() != 0) {
@@ -69,6 +73,9 @@ public class CacheManager<K, V> implements Cache<K, V> {
 
     @Override
     public Optional<V> get(K key) {
+        if (Objects.isNull(key)) {
+            return Optional.empty();
+        }
         Element<K, V> element = cacheStore.get(key);
         System.out.println(element);
         return Optional.ofNullable(element).map(Element::getValue);
@@ -95,13 +102,18 @@ public class CacheManager<K, V> implements Cache<K, V> {
 
     @Override
     public boolean remove(K key) {
+        if (Objects.isNull(key)) {
+            return false;
+        }
         Element<K, V> element = cacheStore.remove(key);
         return Objects.nonNull(element);
     }
 
     @Override
     public void removeAll(Collection<K> keys) {
-        cacheStore.removeAll(keys);
+        if (CollectionUtils.isNotEmpty(keys)) {
+            cacheStore.removeAll(keys);
+        }
     }
 
     @Override
@@ -121,6 +133,9 @@ public class CacheManager<K, V> implements Cache<K, V> {
 
     @Override
     public boolean containsKey(K key) {
+        if (Objects.isNull(key)) {
+            return false;
+        }
         return cacheStore.containsKey(key);
     }
 
