@@ -2,7 +2,6 @@ package site.kycer.project.ktool.basic.core;
 
 import java.util.Collection;
 import java.util.Map;
-import java.util.Objects;
 
 /**
  * 断言工具类
@@ -12,6 +11,9 @@ import java.util.Objects;
  * @date 2019-08-12
  */
 public final class AssertUtils {
+
+    private AssertUtils() {
+    }
 
     /**
      * 断言为 True
@@ -32,7 +34,7 @@ public final class AssertUtils {
      * @param object  对象
      * @param message 报错提示
      */
-    public static void isNull(Object object, String message) {
+    public static <T> void isNull(T object, String message) {
         if (object != null) {
             throw new IllegalArgumentException(message);
         }
@@ -44,10 +46,11 @@ public final class AssertUtils {
      * @param object  对象
      * @param message 报错提示
      */
-    public static void notNull(Object object, String message) {
+    public static <T> T notNull(T object, String message) {
         if (object == null) {
             throw new IllegalArgumentException(message);
         }
+        return object;
     }
 
     /**
@@ -69,7 +72,7 @@ public final class AssertUtils {
      * @param message    报错提示
      */
     public static void notEmpty(Collection<?> collection, String message) {
-        if (Objects.isNull(collection) || collection.isEmpty()) {
+        if (CollectionUtils.isEmpty(collection)) {
             throw new IllegalArgumentException(message);
         }
     }
@@ -81,7 +84,7 @@ public final class AssertUtils {
      * @param message 错误提示
      */
     public static void notEmpty(Map<?, ?> map, String message) {
-        if (Objects.isNull(map) || map.isEmpty()) {
+        if (CollectionUtils.isEmpty(map)) {
             throw new IllegalArgumentException(message);
         }
     }
