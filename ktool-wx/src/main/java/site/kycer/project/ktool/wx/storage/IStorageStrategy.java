@@ -23,10 +23,10 @@ public interface IStorageStrategy {
 
 
     /**
-     * 通过 appId 获取 {@linkplain AppConfig}
+     * 通过 appId 获取 {@link AppConfig}
      *
      * @param appId 应用ID
-     * @return {@linkplain AppConfig}
+     * @return {@link AppConfig}
      */
     AppConfig getConfigByAppId(String appId);
 
@@ -41,7 +41,7 @@ public interface IStorageStrategy {
     /**
      * 对应支持的类型
      *
-     * @return {@linkplain StorageEnum}
+     * @return {@link StorageEnum}
      */
     StorageEnum supports();
 }

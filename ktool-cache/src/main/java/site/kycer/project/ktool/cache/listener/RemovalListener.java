@@ -34,7 +34,7 @@ public class RemovalListener<K, V> {
 
 
     /**
-     * {@linkplain ScheduledFuture}
+     * {@link ScheduledFuture}
      */
     private volatile ScheduledFuture<?> schedule;
 

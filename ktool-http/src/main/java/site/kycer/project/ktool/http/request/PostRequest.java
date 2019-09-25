@@ -37,7 +37,7 @@ public class PostRequest extends AbstractRequest<PostRequest> {
      * true: 文件参数类型提交
      *
      * @param isMultipart 参数是否带有文件
-     * @return {@linkplain PostRequest}
+     * @return {@link PostRequest}
      */
     public PostRequest isMultipart(boolean isMultipart) {
         this.isMultipart = isMultipart;
@@ -49,7 +49,7 @@ public class PostRequest extends AbstractRequest<PostRequest> {
      *
      * @param key   字段名
      * @param value 字段值
-     * @return {@linkplain PostRequest}
+     * @return {@link PostRequest}
      */
     public PostRequest param(String key, String value) {
         return this.param(key, value, false);
@@ -61,7 +61,7 @@ public class PostRequest extends AbstractRequest<PostRequest> {
      * @param key     字段名
      * @param value   字段值
      * @param replace 是否替换
-     * @return {@linkplain PostRequest}
+     * @return {@link PostRequest}
      */
     public PostRequest param(String key, String value, boolean replace) {
         if (StringUtils.isEmpty(key)) {
@@ -84,7 +84,7 @@ public class PostRequest extends AbstractRequest<PostRequest> {
      * @param key      字段名
      * @param file     文件
      * @param filename 文件名
-     * @return {@linkplain PostRequest}
+     * @return {@link PostRequest}
      */
     public PostRequest param(String key, File file, String filename) {
         if (StringUtils.isEmpty(key) || Objects.isNull(file) || StringUtils.isEmpty(filename)) {
@@ -102,7 +102,7 @@ public class PostRequest extends AbstractRequest<PostRequest> {
      * @param key         字段名
      * @param inputStream 文件流
      * @param streamName  文件名
-     * @return {@linkplain PostRequest}
+     * @return {@link PostRequest}
      * @throws IOException io异常
      */
     public PostRequest param(String key, InputStream inputStream, String streamName) throws IOException {
@@ -130,7 +130,7 @@ public class PostRequest extends AbstractRequest<PostRequest> {
     /**
      * 创建 RequestBody
      *
-     * @return {@linkplain RequestBody}
+     * @return {@link RequestBody}
      */
     private RequestBody generateRequestBody() {
         if (this.isMultipart) {

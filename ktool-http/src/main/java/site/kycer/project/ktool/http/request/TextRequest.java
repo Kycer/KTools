@@ -41,7 +41,7 @@ public class TextRequest extends AbstractRequest<TextRequest> {
      * post 提交 json
      *
      * @param json json字符串
-     * @return {@linkplain TextRequest}
+     * @return {@link TextRequest}
      */
     public TextRequest json(String json) {
         this.mediaType = MediaTypeEnum.JSON.getType();
@@ -53,7 +53,7 @@ public class TextRequest extends AbstractRequest<TextRequest> {
      * post 提交 xml
      *
      * @param xml xml字符串
-     * @return {@linkplain TextRequest}
+     * @return {@link TextRequest}
      */
     public TextRequest xml(String xml) {
         this.mediaType = MediaTypeEnum.XML.getType();
@@ -65,7 +65,7 @@ public class TextRequest extends AbstractRequest<TextRequest> {
      * post 提交 html
      *
      * @param html html字符串
-     * @return {@linkplain TextRequest}
+     * @return {@link TextRequest}
      */
     public TextRequest html(String html) {
         this.mediaType = MediaTypeEnum.HTML.getType();

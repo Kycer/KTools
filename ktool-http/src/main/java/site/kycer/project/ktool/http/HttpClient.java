@@ -45,7 +45,7 @@ public class HttpClient {
          * 单独设置 连接超时
          *
          * @param connectTimeout 连接超时
-         * @return {@linkplain Builder}
+         * @return {@link Builder}
          */
         public Builder connectTimeout(Integer connectTimeout, TimeUnit timeUnit) {
             this.okHttpClientBuilder.connectTimeout(connectTimeout, timeUnit);
@@ -56,7 +56,7 @@ public class HttpClient {
          * 单独设置 写超时
          *
          * @param writeTimeout 写超时
-         * @return {@linkplain Builder}
+         * @return {@link Builder}
          */
         public Builder writeTimeout(Integer writeTimeout, TimeUnit timeUnit) {
             this.okHttpClientBuilder.writeTimeout(writeTimeout, timeUnit);
@@ -67,7 +67,7 @@ public class HttpClient {
          * 单独设置 读超时
          *
          * @param readTimeout 读超时
-         * @return {@linkplain Builder}
+         * @return {@link Builder}
          */
         public Builder readTimeout(Integer readTimeout, TimeUnit timeUnit) {
             this.okHttpClientBuilder.readTimeout(readTimeout, timeUnit);
@@ -78,7 +78,7 @@ public class HttpClient {
          * 为构建本次请求设置单独SSL证书
          *
          * @param certificates SSL证书文件
-         * @return {@linkplain Builder}
+         * @return {@link Builder}
          */
         public Builder ssl(InputStream... certificates) {
             return ssl(null, null, certificates);
@@ -88,7 +88,7 @@ public class HttpClient {
          * 为构建本次请求设置SSL单向认证
          *
          * @param trustManager 证书管理器
-         * @return {@linkplain Builder}
+         * @return {@link Builder}
          */
         public Builder ssl(X509TrustManager trustManager) {
             return ssl(null, null, trustManager);
@@ -100,7 +100,7 @@ public class HttpClient {
          * @param pfxStream    客户端证书，支持P12的证书
          * @param pfxPwd       客户端证书密码
          * @param certificates 含有服务端公钥的证书
-         * @return {@linkplain Builder}
+         * @return {@link Builder}
          */
         public Builder ssl(InputStream pfxStream, String pfxPwd, InputStream... certificates) {
             SSLContainer sslContainer = SSLFactory.create(certificates, null, pfxStream, pfxPwd);
@@ -114,7 +114,7 @@ public class HttpClient {
          * @param pfxStream    客户端证书，支持P12的证书
          * @param pfxPwd       客户端证书密码
          * @param trustManager 证书管理器
-         * @return {@linkplain Builder}
+         * @return {@link Builder}
          */
         public Builder ssl(InputStream pfxStream, String pfxPwd, X509TrustManager trustManager) {
             SSLContainer sslContainer = SSLFactory.create(null, trustManager, pfxStream, pfxPwd);
@@ -126,7 +126,7 @@ public class HttpClient {
          * get 请求
          *
          * @param url url
-         * @return {@linkplain GetRequest}
+         * @return {@link GetRequest}
          */
         public GetRequest get(String url) {
             return new GetRequest(okHttpClientBuilder, url);
@@ -136,7 +136,7 @@ public class HttpClient {
          * post 请求
          *
          * @param url url
-         * @return {@linkplain PostRequest}
+         * @return {@link PostRequest}
          */
         public PostRequest post(String url) {
             return new PostRequest(okHttpClientBuilder, url);
@@ -146,7 +146,7 @@ public class HttpClient {
          * 文本类型请求
          *
          * @param url url
-         * @return {@linkplain PostRequest}
+         * @return {@link PostRequest}
          */
         public TextRequest text(String url) {
             return new TextRequest(okHttpClientBuilder, url);

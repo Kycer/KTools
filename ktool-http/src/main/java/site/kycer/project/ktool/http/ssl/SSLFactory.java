@@ -30,7 +30,7 @@ public class SSLFactory {
      * @param x509TrustManager 自定义证书管理器
      * @param pfxCertificate   客户端证书
      * @param keyStorePassword 客户端证书密码
-     * @return {@linkplain SSLContainer}
+     * @return {@link SSLContainer}
      */
     public static SSLContainer create(InputStream[] certificates, X509TrustManager x509TrustManager,
                                       InputStream pfxCertificate, String keyStorePassword) {
@@ -60,7 +60,7 @@ public class SSLFactory {
      * 根据证书文件生成
      *
      * @param certificates 证书
-     * @return {@linkplain X509KeyManager}
+     * @return {@link X509KeyManager}
      * @throws Exception e
      */
     private static X509TrustManager prepareX509TrustManager(InputStream... certificates) throws Exception {
@@ -92,11 +92,11 @@ public class SSLFactory {
     }
 
     /**
-     * 生成 {@linkplain KeyManager} 数组
+     * 生成 {@link KeyManager} 数组
      *
      * @param pfxCertificate 客户端证书
      * @param pfxPassword    客户端密码
-     * @return {@linkplain KeyManager}
+     * @return {@link KeyManager}
      * @throws Exception e
      */
     private static KeyManager[] generateKeyManager(InputStream pfxCertificate, char[] pfxPassword) throws Exception {

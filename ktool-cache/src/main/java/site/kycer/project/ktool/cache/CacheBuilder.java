@@ -30,8 +30,8 @@ public class CacheBuilder<K, V> {
     /**
      * 设置缓存失效策略
      *
-     * @param expiration {@linkplain ExpirationType} 缓存策略
-     * @return {@linkplain CacheBuilder}
+     * @param expiration {@link ExpirationType} 缓存策略
+     * @return {@link CacheBuilder}
      */
     public <K1 extends K, V1 extends V> CacheBuilder<K1, V1> expiration(ExpirationType expiration) {
         if (Objects.isNull(expiration)) {
@@ -45,7 +45,7 @@ public class CacheBuilder<K, V> {
      * 设置缓存大小
      *
      * @param size 大小
-     * @return {@linkplain CacheBuilder}
+     * @return {@link CacheBuilder}
      */
     public <K1 extends K, V1 extends V> CacheBuilder<K1, V1> size(Integer size) {
         if (Objects.isNull(size) || size < 0) {
@@ -59,7 +59,7 @@ public class CacheBuilder<K, V> {
      * 缓存失效时间
      *
      * @param expires 失效时间
-     * @return {@linkplain CacheBuilder}
+     * @return {@link CacheBuilder}
      */
     public <K1 extends K, V1 extends V> CacheBuilder<K1, V1> expires(Long expires) {
         if (Objects.isNull(expires) || expires < 0) {
@@ -73,7 +73,7 @@ public class CacheBuilder<K, V> {
      * 设置缓存失效扫描时间
      *
      * @param scanSeconds 缓存失效扫描时间
-     * @return {@linkplain CacheBuilder}
+     * @return {@link CacheBuilder}
      */
     public <K1 extends K, V1 extends V> CacheBuilder<K1, V1> scanSeconds(Long scanSeconds) {
         if (Objects.isNull(scanSeconds) || scanSeconds < 0) {

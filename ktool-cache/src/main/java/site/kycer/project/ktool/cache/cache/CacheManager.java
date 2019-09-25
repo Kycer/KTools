@@ -140,11 +140,11 @@ public class CacheManager<K, V> implements Cache<K, V> {
     }
 
     /**
-     * 生成 {@linkplain Element} 对象
+     * 生成 {@link Element} 对象
      *
      * @param key   缓存key
      * @param value 缓存value
-     * @return {@linkplain Element}
+     * @return {@link Element}
      */
     private Element<K, V> generateElement(K key, V value, Long expires) {
         Long millis = Objects.equals(expiration, ExpirationType.PROTRACTED) ? 0L : Optional.ofNullable(expires).orElse(configure.getExpires());

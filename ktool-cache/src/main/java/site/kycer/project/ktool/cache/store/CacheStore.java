@@ -22,23 +22,23 @@ public interface CacheStore<K, V> {
     /**
      * 添加一个元素
      *
-     * @param e {@linkplain Element} 元素
-     * @return 当前添加的 {@linkplain Element} 元素
+     * @param e {@link Element} 元素
+     * @return 当前添加的 {@link Element} 元素
      */
     Element put(Element<K, V> e);
 
     /**
-     * 根据 {@code key} 获取一个元素 {@linkplain Element}
+     * 根据 {@code key} 获取一个元素 {@link Element}
      *
      * @param key 缓存key值
-     * @return 缓存元素 {@linkplain Element}
+     * @return 缓存元素 {@link Element}
      */
     Element<K, V> get(K key);
 
     /**
      * 获取所有缓存
      *
-     * @return 索取所有缓存元素 {@linkplain Element}
+     * @return 索取所有缓存元素 {@link Element}
      */
     Collection<Element<K, V>> getAll();
 

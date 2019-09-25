@@ -53,7 +53,7 @@ public abstract class AbstractRequest<T extends AbstractRequest> {
      *
      * @param key   字段名
      * @param value 字段值
-     * @return 返回当前 {@linkplain T} 对象
+     * @return 返回当前 {@link T} 对象
      */
     public T queryString(String key, String value) {
         this.queryString(key, value, false);
@@ -66,7 +66,7 @@ public abstract class AbstractRequest<T extends AbstractRequest> {
      * @param key     字段名
      * @param value   字段值
      * @param replace 是否替换相同key值的value
-     * @return 返回当前 {@linkplain T} 对象
+     * @return 返回当前 {@link T} 对象
      */
     public T queryString(String key, String value, boolean replace) {
         if (StringUtils.isEmpty(key)) {
@@ -111,7 +111,7 @@ public abstract class AbstractRequest<T extends AbstractRequest> {
      *
      * @param name  头名字
      * @param value 头值
-     * @return 返回当前 {@linkplain T} 对象
+     * @return 返回当前 {@link T} 对象
      */
     public T header(String name, String value) {
         if (StringUtils.isNotEmpty(name) && null != value) {
@@ -134,7 +134,7 @@ public abstract class AbstractRequest<T extends AbstractRequest> {
     /**
      * 获取 Request
      *
-     * @return {@linkplain Request}
+     * @return {@link Request}
      */
     private Request getRequest() {
         Request.Builder builder = this.getRequestBuilder();
@@ -147,7 +147,7 @@ public abstract class AbstractRequest<T extends AbstractRequest> {
     /**
      * 同步执行请求
      *
-     * @return {@linkplain HttpResponse}
+     * @return {@link HttpResponse}
      */
     public HttpResponse execute() {
         try {
