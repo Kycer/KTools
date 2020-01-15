@@ -43,19 +43,13 @@ public class Element<K, V> implements Serializable {
      */
     private Long failureTime;
 
-    /**
-     * 最后更新时间
-     */
-    private volatile Long lastAccessTime;
-
 
     public Element(K key, V value, Long expires) {
         this.key = key;
         this.value = value;
         this.expires = expires;
         this.hitCount = 0L;
-        this.creationTime = DateUtils.getMillis();
-        this.lastAccessTime = DateUtils.getMillis();
+        this.creationTime = System.nanoTime();
         this.failureTime = this.expires == 0 ? 0 : (this.creationTime + this.expires);
     }
 
@@ -119,13 +113,6 @@ public class Element<K, V> implements Serializable {
         this.failureTime = failureTime;
     }
 
-    public Long getLastAccessTime() {
-        return lastAccessTime;
-    }
-
-    public void setLastAccessTime(Long lastAccessTime) {
-        this.lastAccessTime = lastAccessTime;
-    }
 
     @Override
     public String toString() {
@@ -136,7 +123,6 @@ public class Element<K, V> implements Serializable {
                 ", hitCount=" + hitCount +
                 ", creationTime=" + creationTime +
                 ", failureTime=" + failureTime +
-                ", lastAccessTime=" + lastAccessTime +
                 '}';
     }
 }

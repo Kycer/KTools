@@ -3,6 +3,7 @@ package site.kycer.project.ktool.cache.store.impl;
 import site.kycer.project.ktool.cache.store.Element;
 
 import java.util.ArrayList;
+import java.util.concurrent.ConcurrentHashMap;
 
 /**
  * 最不经常使用算法
@@ -15,10 +16,18 @@ public class LFUStore<K, V> extends AbstractStore<K, V> {
 
     public LFUStore(Integer size) {
         super(size);
+        storageMap = new ConcurrentHashMap<>(SIZE);
     }
 
     @Override
-    public Element put(Element<K, V> e) {
+    public Element<K, V> updateElement(Element<K, V> element) {
+        // 更新使用次数
+        element.setHitCount(element.getHitCount() + 1);
+        return element;
+    }
+
+    @Override
+    public Element<K, V> put(Element<K, V> e) {
         writeLock.lock();
         try {
             // 手动清除所有过期数据
@@ -37,32 +46,10 @@ public class LFUStore<K, V> extends AbstractStore<K, V> {
                 this.remove(key);
             }
             e.setHitCount(1L);
-            STORAGE_MAP.put(e.getKey(), e);
+            storageMap.put(e.getKey(), e);
             return e;
         } finally {
             writeLock.unlock();
         }
     }
-
-    @Override
-    public Element<K, V> get(K key) {
-        if (!containsKey(key)) {
-            return null;
-        }
-        writeLock.lock();
-        try {
-            Element<K, V> element = STORAGE_MAP.get(key);
-            // 过期就删除
-            if (element.isExpired()) {
-                remove(key);
-                return null;
-            }
-            // 更新最后一次使用时间
-            element.setHitCount(element.getHitCount() + 1);
-            return element;
-        } finally {
-            writeLock.unlock();
-        }
-    }
-
 }

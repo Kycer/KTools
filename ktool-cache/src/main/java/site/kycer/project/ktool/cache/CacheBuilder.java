@@ -9,6 +9,8 @@ import site.kycer.project.ktool.cache.enums.ExpirationType;
 import java.util.Objects;
 
 /**
+ * 缓存构造类
+ *
  * @author Kycer
  * @version 1.0
  * @date 2019-09-20
@@ -83,6 +85,13 @@ public class CacheBuilder<K, V> {
         return (CacheBuilder<K1, V1>) this;
     }
 
+    /**
+     * 构建缓存 CacheManager
+     *
+     * @param <K1> key
+     * @param <V1> value
+     * @return {@link CacheManager}
+     */
     public <K1 extends K, V1 extends V> Cache<K1, V1> build() {
         return new CacheManager<>((CacheBuilder<K1, V1>) this);
     }

@@ -25,7 +25,7 @@ public interface CacheStore<K, V> {
      * @param e {@link Element} 元素
      * @return 当前添加的 {@link Element} 元素
      */
-    Element put(Element<K, V> e);
+    Element<K, V> put(Element<K, V> e);
 
     /**
      * 根据 {@code key} 获取一个元素 {@link Element}
@@ -34,6 +34,13 @@ public interface CacheStore<K, V> {
      * @return 缓存元素 {@link Element}
      */
     Element<K, V> get(K key);
+
+    /**
+     * 获取第一个元素
+     *
+     * @return {@link Element}
+     */
+    Element<K, V> getFirst();
 
     /**
      * 获取所有缓存

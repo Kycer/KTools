@@ -77,7 +77,6 @@ public class CacheManager<K, V> implements Cache<K, V> {
             return Optional.empty();
         }
         Element<K, V> element = cacheStore.get(key);
-        System.out.println(element);
         return Optional.ofNullable(element).map(Element::getValue);
     }
 
@@ -92,7 +91,7 @@ public class CacheManager<K, V> implements Cache<K, V> {
                         return map;
                     }).collect(Collectors.toList());
         }
-        return new ArrayList<>(0);
+        return Collections.emptyList();
     }
 
     @Override

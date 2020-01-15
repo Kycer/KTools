@@ -1,13 +1,14 @@
 package site.kycer.project.ktool.cache.store.impl;
 
-import site.kycer.project.ktool.cache.store.Element;
 import site.kycer.project.ktool.cache.store.CacheStore;
+import site.kycer.project.ktool.cache.store.Element;
+import site.kycer.project.ktool.cache.store.ElementEvent;
 
 import java.util.Collection;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 import java.util.Set;
-import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReadWriteLock;
 import java.util.concurrent.locks.ReentrantReadWriteLock;
@@ -21,9 +22,9 @@ import java.util.stream.Collectors;
  * @date 2019-09-20
  */
 @SuppressWarnings("WeakerAccess")
-public abstract class AbstractStore<K, V> implements CacheStore<K, V> {
+public abstract class AbstractStore<K, V> implements CacheStore<K, V>, ElementEvent<K, V> {
 
-    protected final Map<K, Element<K, V>> STORAGE_MAP;
+    protected Map<K, Element<K, V>> storageMap;
 
     private final ReadWriteLock readWriteLock = new ReentrantReadWriteLock();
     protected final Lock readLock = readWriteLock.readLock();
@@ -32,11 +33,57 @@ public abstract class AbstractStore<K, V> implements CacheStore<K, V> {
     /**
      * 容器初始大小
      */
-    private final Integer SIZE;
+    protected final Integer SIZE;
+
+    /**
+     * 集合默认大小
+     */
+    private static final Integer DEFAULT_SIZE = 16;
 
     AbstractStore(Integer size) {
-        SIZE = size;
-        this.STORAGE_MAP = new ConcurrentHashMap<>(size);
+        SIZE = Objects.nonNull(size) ? size : DEFAULT_SIZE;
+    }
+
+    @Override
+    public Element<K, V> put(Element<K, V> e) {
+        writeLock.lock();
+        try {
+            // 手动清除所有过期数据
+            clearExpired();
+            // 淘汰对象
+            if (isFull()) {
+                eliminate();
+            }
+            storageMap.put(e.getKey(), e);
+            return e;
+        } finally {
+            writeLock.unlock();
+        }
+    }
+
+    @Override
+    public Element<K, V> get(K key) {
+        if (!containsKey(key)) {
+            return null;
+        }
+        readLock.lock();
+        try {
+            Element<K, V> element = storageMap.get(key);
+            // 过期就删除
+            if (element.isExpired()) {
+                remove(key);
+                return null;
+            }
+            return updateElement(element);
+        } finally {
+            readLock.unlock();
+        }
+    }
+
+    @Override
+    public Element<K, V> getFirst() {
+        Map.Entry<K, Element<K, V>> next = storageMap.entrySet().iterator().next();
+        return next.getValue();
     }
 
     @Override
@@ -44,32 +91,32 @@ public abstract class AbstractStore<K, V> implements CacheStore<K, V> {
         if (isEmpty()) {
             return null;
         }
-        return STORAGE_MAP.values();
+        return storageMap.values();
     }
 
     @Override
     public Set<K> getKeys() {
-        return STORAGE_MAP.keySet();
+        return storageMap.keySet();
     }
 
     @Override
     public void clear() {
-        STORAGE_MAP.clear();
+        storageMap.clear();
     }
 
     @Override
     public void clearExpired() {
-        if (STORAGE_MAP.isEmpty()) {
+        if (storageMap.isEmpty()) {
             return;
         }
-        List<K> keys = STORAGE_MAP.values().stream().filter(Element::isExpired)
+        List<K> keys = storageMap.values().stream().filter(Element::isExpired)
                 .map(Element::getKey).collect(Collectors.toList());
         this.removeAll(keys);
     }
 
     @Override
     public Element<K, V> remove(K key) {
-        return STORAGE_MAP.remove(key);
+        return storageMap.remove(key);
     }
 
     @Override
@@ -84,21 +131,21 @@ public abstract class AbstractStore<K, V> implements CacheStore<K, V> {
 
     @Override
     public Integer size() {
-        return STORAGE_MAP.size();
+        return storageMap.size();
     }
 
     @Override
     public boolean isFull() {
-        return STORAGE_MAP.size() == SIZE;
+        return storageMap.size() == SIZE;
     }
 
     @Override
     public boolean isEmpty() {
-        return STORAGE_MAP.isEmpty();
+        return storageMap.isEmpty();
     }
 
     @Override
     public boolean containsKey(K key) {
-        return STORAGE_MAP.containsKey(key);
+        return storageMap.containsKey(key);
     }
 }
