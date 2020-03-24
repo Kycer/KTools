@@ -10,9 +10,9 @@ import java.util.Map;
  * @version 1.0
  * @date 2019-08-12
  */
-public final class AssertUtils {
+public final class Assert {
 
-    private AssertUtils() {
+    private Assert() {
     }
 
     /**
@@ -27,6 +27,15 @@ public final class AssertUtils {
         }
     }
 
+    /**
+     * 断言为 False
+     *
+     * @param expression boolean对象
+     * @param message    报错提示
+     */
+    public static void isFalse(boolean expression, String message) {
+        isTrue(!expression, message);
+    }
 
     /**
      * 断言对象为 null
@@ -87,5 +96,15 @@ public final class AssertUtils {
         if (CollectionUtils.isEmpty(map)) {
             throw new IllegalArgumentException(message);
         }
+    }
+
+    /**
+     * 断言数组不为空
+     *
+     * @param array   Array
+     * @param message 错误提示
+     */
+    public static void notEmpty(Object[] array, String message) {
+        isTrue(ArrayUtils.isNotEmpty(array), message);
     }
 }

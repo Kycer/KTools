@@ -7,5 +7,5 @@ package site.kycer.project.ktool.basic.core;
  * @version 1.0
  * @date 2019-09-19
  */
-public class ClassUtil {
+public class ClassUtils {
 }

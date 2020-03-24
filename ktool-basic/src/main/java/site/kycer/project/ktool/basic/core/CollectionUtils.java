@@ -4,6 +4,8 @@ import java.util.Collection;
 import java.util.Map;
 
 /**
+ * 集合工具类
+ *
  * @author Kycer
  * @version 1.0
  * @date 2019-09-18
@@ -11,6 +13,7 @@ import java.util.Map;
 public class CollectionUtils {
     private CollectionUtils() {
     }
+
     /**
      * 判断集合是否为空
      *
