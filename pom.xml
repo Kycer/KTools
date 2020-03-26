@@ -15,7 +15,10 @@
         <module>ktool-basic</module>
         <module>ktool-http</module>
         <module>ktool-cache</module>
+        <module>ktool-spi</module>
         <module>ktool-wx</module>
+        <module>ktool-serializer</module>
+        <module>ktool-examples</module>
     </modules>
 
     <properties>
@@ -31,6 +34,19 @@
         <slf4j-api.version>1.7.28</slf4j-api.version>
         <servlet-api.version>4.0.1</servlet-api.version>
 
+        <!--   序列化相关     -->
+        <kryo.version>5.0.0-RC5</kryo.version>
+        <protostuff.version>1.7.0</protostuff.version>
+        <guava.version>28.2-jre</guava.version>
+
+        <!--   模块版本     -->
+        <ktool-basic.version>1.0.0-SNAPSHOT</ktool-basic.version>
+        <ktool-http.version>1.0.0-SNAPSHOT</ktool-http.version>
+        <ktool-cache.version>1.0.0-SNAPSHOT</ktool-cache.version>
+        <ktool-spi.version>1.0.0-SNAPSHOT</ktool-spi.version>
+        <ktool-wx.version>1.0.0-SNAPSHOT</ktool-wx.version>
+        <ktool-serializer.version>1.0.0-SNAPSHOT</ktool-serializer.version>
+        <ktool-examples.version>1.0.0-SNAPSHOT</ktool-examples.version>
     </properties>
 
     <dependencyManagement>
@@ -62,6 +78,29 @@
                 <artifactId>javax.servlet-api</artifactId>
                 <version>${servlet-api.version}</version>
             </dependency>
+
+            <!-- 序列化 -->
+            <dependency>
+                <groupId>com.esotericsoftware</groupId>
+                <artifactId>kryo</artifactId>
+                <version>${kryo.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>io.protostuff</groupId>
+                <artifactId>protostuff-core</artifactId>
+                <version>${protostuff.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>io.protostuff</groupId>
+                <artifactId>protostuff-runtime</artifactId>
+                <version>${protostuff.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.google.guava</groupId>
+                <artifactId>guava</artifactId>
+                <version>${guava.version}</version>
+            </dependency>
+
         </dependencies>
     </dependencyManagement>
 
@@ -108,6 +147,7 @@
                     <source>${java.version}</source>
                     <target>${java.version}</target>
                     <parameters>true</parameters>
+                    <compilerArgument>-proc:none</compilerArgument>
                 </configuration>
             </plugin>
             <plugin>
