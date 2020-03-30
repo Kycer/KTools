@@ -1,6 +1,6 @@
 package site.kycer.project.ktool.cache;
 
-import site.kycer.project.ktool.basic.core.UUIDUtils;
+import site.kycer.project.ktool.basic.core.IDUtils;
 import site.kycer.project.ktool.cache.cache.CacheManager;
 import site.kycer.project.ktool.cache.cache.Cache;
 import site.kycer.project.ktool.cache.config.CacheConfig;
@@ -26,7 +26,7 @@ public class CacheBuilder<K, V> {
     private CacheConfig cacheConfig;
 
     CacheBuilder() {
-        this.cacheConfig = new CacheConfig(UUIDUtils.generator());
+        this.cacheConfig = new CacheConfig(IDUtils.randomUUID());
     }
 
     /**

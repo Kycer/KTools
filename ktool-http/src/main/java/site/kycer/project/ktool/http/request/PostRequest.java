@@ -110,7 +110,7 @@ public class PostRequest extends AbstractRequest<PostRequest> {
             return this;
         }
         List<FileWrapper> fileWrapperList = this.fileParams.computeIfAbsent(key, k -> new LinkedList<>());
-        RequestBody requestBody = RequestBody.create(IOUtils.toByteArray(inputStream), MediaTypeEnum.STREAM.getType());
+        RequestBody requestBody = RequestBody.create(IOUtils.readBytes(inputStream), MediaTypeEnum.STREAM.getType());
         fileWrapperList.add(new FileWrapper(key, requestBody, streamName));
         return this;
     }

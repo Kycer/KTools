@@ -78,7 +78,7 @@ public class SSLFactory {
         for (int i = 0, length = certificates.length; i < length; i++) {
             //将证书对象作为可信证书放入到keyStore中
             keyStore.setCertificateEntry(String.valueOf(i + 1), factory.generateCertificate(certificates[i]));
-            IOUtils.closeQuietly(certificates[i]);
+            IOUtils.close(certificates[i]);
         }
 
         TrustManagerFactory trustManagerFactory = TrustManagerFactory.getInstance(TrustManagerFactory.getDefaultAlgorithm());
