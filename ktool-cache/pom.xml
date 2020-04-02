@@ -10,14 +10,14 @@
         <version>1.0.0-SNAPSHOT</version>
     </parent>
 
-    <artifactId>KTool-Cache</artifactId>
+    <artifactId>ktool-cache</artifactId>
     <packaging>jar</packaging>
-    <name>KTool-Cache</name>
+    <name>ktool-cache</name>
 
     <dependencies>
         <dependency>
             <groupId>site.kycer.project</groupId>
-            <artifactId>KTool-Basic</artifactId>
+            <artifactId>ktool-basic</artifactId>
             <version>${project.version}</version>
         </dependency>
     </dependencies>

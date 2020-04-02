@@ -10,14 +10,14 @@
         <version>1.0.0-SNAPSHOT</version>
     </parent>
 
-    <artifactId>KTool-Wx</artifactId>
+    <artifactId>ktool-wx</artifactId>
     <packaging>jar</packaging>
-    <name>KTool-Wx</name>
+    <name>ktool-wx</name>
 
     <dependencies>
         <dependency>
             <groupId>site.kycer.project</groupId>
-            <artifactId>KTool-Http</artifactId>
+            <artifactId>ktool-http</artifactId>
             <version>${project.version}</version>
         </dependency>
         <dependency>
