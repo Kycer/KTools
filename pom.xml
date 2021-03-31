@@ -37,7 +37,7 @@
         <!--   序列化相关     -->
         <kryo.version>5.0.0-RC5</kryo.version>
         <protostuff.version>1.7.0</protostuff.version>
-        <guava.version>28.2-jre</guava.version>
+        <guava.version>29.0-jre</guava.version>
 
         <!--   模块版本     -->
         <ktool-basic.version>1.0.0-SNAPSHOT</ktool-basic.version>
